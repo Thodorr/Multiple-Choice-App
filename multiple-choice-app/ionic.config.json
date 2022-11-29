@@ -1,0 +1,7 @@
+{
+  "name": "Multiple-Choice-App",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
