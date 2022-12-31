@@ -1,21 +1,26 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{ collection.name }}</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Collection: {{ collection.name }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-list>
+  <ion-list *ngIf="collection.questions.length >= 1" style="min-height: 80%">
     <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($any($event))">
-      <ion-item *ngFor="let question of collection.questions; let indexOfelement = index;">
-        <ion-card class="blueBox" style="width: 100%" (click)="openQuestionDetail(indexOfelement)" (press)="deleteQuestion(indexOfelement)">
+      <ion-item *ngFor="let question of collection.questions; let indexOfElement = index;" lines="none">
+        <ion-card class="blueBox" style="width: 100%" (click)="openQuestionDetail(indexOfElement)" (press)="deleteQuestion(indexOfElement)">
           <ion-card-header>
             <ion-row>
               <ion-col>
                 <ion-card-title style="color:white; font-size: medium">{{question.questionText}}</ion-card-title>
               </ion-col>
               <ion-col size="auto">
-                <ion-reorder style="width: 50px; color: white"></ion-reorder>
+                <ion-reorder class="reorder"></ion-reorder>
               </ion-col>
             </ion-row>
           </ion-card-header>
@@ -23,9 +28,19 @@
       </ion-item>
     </ion-reorder-group>
   </ion-list>
+  <div style="height: 85%; display: flex; align-items: center; justify-content: center;" *ngIf="collection.questions.length < 1">
+    <ion-card class="emptyWarning">
+      <ion-card-header style="padding-bottom: 0">
+        <ion-card-title class="emptyWarningText">There are no questions at the moment!</ion-card-title>
+      </ion-card-header>
+      <ion-card-content class="emptyWarningText">
+        <ion-icon size="large" name="alert-circle-outline"></ion-icon>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>
 
-<ion-fab slot="fixed" vertical="bottom" horizontal="center">
+<ion-fab class="addFab" slot="fixed" vertical="bottom" horizontal="center">
   <ion-fab-button>
     <ion-icon name="add" (click)="openQuestionDetail()" ></ion-icon>
   </ion-fab-button>

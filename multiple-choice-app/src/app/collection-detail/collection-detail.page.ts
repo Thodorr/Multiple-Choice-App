@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {DataService} from "../services/data.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Collection} from "../../model/Collection";
-import {Question} from "../../model/Question";
-import {ItemReorderEventDetail} from "@ionic/angular";
+import {AlertController, ItemReorderEventDetail, NavController} from "@ionic/angular";
 
 @Component({
   selector: 'app-collection-detail',
@@ -14,7 +13,12 @@ export class CollectionDetailPage implements OnInit {
   id: number;
   collection: Collection;
 
-  constructor(private data: DataService, private activatedRoute: ActivatedRoute, private router: Router) { }
+  constructor(private data: DataService,
+              private activatedRoute: ActivatedRoute,
+              private router: Router,
+              private alertController: AlertController,
+              private navController: NavController
+  ) { }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe(params => {
@@ -27,11 +31,29 @@ export class CollectionDetailPage implements OnInit {
     this.router.navigate(['/question-detail', this.id, questionId]);
   }
 
+  goBack() {
+    this.navController.navigateBack('/collections');
+  }
+
   handleReorder(ev: CustomEvent<ItemReorderEventDetail>) {
     ev.detail.complete();
   }
 
-  deleteQuestion(index: number){
-    this.collection.questions.splice(index, 1)
+  async deleteQuestion(index: number){
+    const alert = await this.alertController.create({
+      header: 'Do you want to delete this question?',
+      buttons: [{
+        text: 'No',
+        role: 'cancel',
+      },
+        {
+          text: 'Yes',
+          role: 'confirm',
+          handler: () => {
+            this.collection.questions.splice(index, 1)
+          },
+        }],
+    });
+    await alert.present();
   }
 }
