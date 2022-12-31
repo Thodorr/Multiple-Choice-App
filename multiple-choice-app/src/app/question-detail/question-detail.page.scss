@@ -1,0 +1,44 @@
+$main-color: #006AB0;
+$side-margin: 12px;
+$rounding: 5px;
+
+.add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 5px dashed $main-color;
+  border-radius: $rounding;
+  margin-left: $side-margin;
+  margin-right: $side-margin;
+  margin-top: 15px;
+  color: $main-color;
+  font-weight: bold;
+  font-size: 20px;
+  text-align: center;
+}
+
+.blueBox {
+  border-radius: $rounding;
+  margin-left: $side-margin;
+  margin-right: $side-margin;
+  color: white;
+  background-color: $main-color;
+}
+
+.boxTextArea {
+  color: white;
+  margin-top: 0;
+}
+
+.bottomButton {
+  width: 100%;
+  height: 50px;
+  font-weight: bold;
+}
+
+.buttonRow {
+  position:absolute !important;
+  bottom:20px !important;
+  left: $side-margin !important;
+  right: $side-margin !important;
+}

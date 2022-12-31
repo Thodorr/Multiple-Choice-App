@@ -1,0 +1,41 @@
+$main-color: #006AB0;
+$side-margin: 12px;
+$rounding: 5px;
+
+.blueBox {
+  border-radius: $rounding;
+  margin-left: $side-margin;
+  margin-right: $side-margin;
+  color: white;
+  background-color: $main-color;
+}
+
+.reorder {
+  width: 50px;
+  color: white;
+}
+
+.addFab {
+  margin-bottom: 30px;
+}
+
+.centered {
+  display: flex!important;
+  align-content: center!important;
+  align-items: center!important;
+}
+
+.emptyWarning {
+  border: 5px dashed $main-color;
+  border-radius: $rounding;
+  margin-left:  50px;
+  margin-right: 50px;
+  margin-top: 15px;
+}
+
+.emptyWarningText {
+  text-align: center;
+  color: $main-color;
+  font-weight: bold;
+  font-size: 20px;
+}

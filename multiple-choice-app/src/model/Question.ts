@@ -1,14 +1,14 @@
+import {Answer} from "./Answer";
+
 export class Question{
   private _questionText: String;
-  private _answers: String[];
-  private _correctAnswerIndexes: Number[];
+  private _answers: Answer[];
   private _correctlyAnswered: Number;
 
-  constructor(questionText: String, answers: String[], correctAnswerIndexes: Number[], correctlyAnswered: Number) {
+  constructor(questionText: String, answers: Answer[]) {
     this._questionText = questionText;
     this._answers = answers;
-    this._correctAnswerIndexes = correctAnswerIndexes;
-    this._correctlyAnswered = correctlyAnswered;
+    this._correctlyAnswered = 0;
   }
 
   get questionText(): String {
@@ -19,20 +19,12 @@ export class Question{
     this._questionText = value;
   }
 
-  get answers(): String[] {
+  get answers(): Answer[] {
     return this._answers;
   }
 
-  set answers(value: String[]) {
+  set answers(value: Answer[]) {
     this._answers = value;
-  }
-
-  get correctAnswerIndexes(): Number[] {
-    return this._correctAnswerIndexes;
-  }
-
-  set correctAnswerIndexes(value: Number[]) {
-    this._correctAnswerIndexes = value;
   }
 
   get correctlyAnswered(): Number {
