@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ collection.name }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($any($event))">
+      <ion-item *ngFor="let question of collection.questions; let indexOfelement = index;">
+        <ion-card class="blueBox" style="width: 100%" (click)="openQuestionDetail(indexOfelement)" (press)="deleteQuestion(indexOfelement)">
+          <ion-card-header>
+            <ion-row>
+              <ion-col>
+                <ion-card-title style="color:white; font-size: medium">{{question.questionText}}</ion-card-title>
+              </ion-col>
+              <ion-col size="auto">
+                <ion-reorder style="width: 50px; color: white"></ion-reorder>
+              </ion-col>
+            </ion-row>
+          </ion-card-header>
+        </ion-card>
+      </ion-item>
+    </ion-reorder-group>
+  </ion-list>
+</ion-content>
+
+<ion-fab slot="fixed" vertical="bottom" horizontal="center">
+  <ion-fab-button>
+    <ion-icon name="add" (click)="openQuestionDetail()" ></ion-icon>
+  </ion-fab-button>
+</ion-fab>

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {DataService} from "../services/data.service";
 import {AlertController, RefresherCustomEvent} from "@ionic/angular";
 import {Collection} from "../../model/Collection";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-collections',
@@ -9,7 +10,7 @@ import {Collection} from "../../model/Collection";
   styleUrls: ['./collections.page.scss'],
 })
 export class CollectionsPage {
-  constructor(private data: DataService, private alertController: AlertController) { }
+  constructor(private data: DataService, private alertController: AlertController, private router: Router) { }
 
 
   refresh(ev: any) {
@@ -112,5 +113,9 @@ export class CollectionsPage {
     });
 
     await alert.present();
+  }
+
+  openDetail(collection: Collection) {
+    this.router.navigate(['/collection-detail', this.data.getIdByCollection(collection)]);
   }
 }
