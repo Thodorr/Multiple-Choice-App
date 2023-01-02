@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {DataService} from "../services/data.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Question} from "../../model/Question";
-import {AlertController} from "@ionic/angular";
+import {AlertController, NavController, ToastController} from "@ionic/angular";
 import {Answer} from "../../model/Answer";
 
 @Component({
@@ -21,7 +21,9 @@ export class QuestionDetailPage implements OnInit {
     private data: DataService,
     private activatedRoute: ActivatedRoute,
     private alertController: AlertController,
-    private router: Router
+    private router: Router,
+    private navController: NavController,
+    private toastController: ToastController
   ) { }
 
   ngOnInit() {
@@ -67,7 +69,9 @@ export class QuestionDetailPage implements OnInit {
           role: 'confirm',
           handler: (alertData) => {
             if ( alertData.answerInput.length >= 1 ) {
-              this.question.answers.push( new Answer(alertData.answerInput, alertData.correct) )
+              let isCorrect = false
+              if (alertData.correct === 'on') isCorrect = true
+              this.question.answers.push( new Answer(alertData.answerInput, isCorrect) )
             }
           },
         }],
@@ -76,12 +80,26 @@ export class QuestionDetailPage implements OnInit {
   }
 
   onCancel() {
-    this.router.navigate(['/collection-detail', this.collectionId]);
+    this.navController.back();
   }
-  onSave() {
-    if (this.questionId == -1) {
-      this.data.getCollectionById(this.collectionId).questions.push(this.question)
+
+  getCollectionName() {
+    return this.data.getCollectionById(this.collectionId).name
+  }
+
+  async onSave() {
+    if (this.question.questionText.length > 0 && this.question.answers.length > 0) {
+      if (this.questionId == -1) {
+        this.data.getCollectionById(this.collectionId).questions.push(this.question)
+      }
+      await this.router.navigate(['/collection-detail', this.collectionId]);
+    } else {
+      const toast = await this.toastController.create({
+        message: 'You need to add a question and at least one answer!',
+        duration: 1500,
+        position: "bottom"
+      });
+      await toast.present();
     }
-    this.router.navigate(['/collection-detail', this.collectionId]);
   }
 }

@@ -1,0 +1,26 @@
+$main-color: #006AB0;
+$side-margin: 100px;
+$rounding: 5px;
+
+.box {
+  border-radius: $rounding;
+  margin-left: $side-margin;
+  margin-right: $side-margin;
+  margin-top: 40px;
+  color: white;
+}
+
+.blue {
+  background-color: $main-color;
+}
+
+.grey {
+  background-color: dimgrey;
+}
+
+.centered {
+  height: 85%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

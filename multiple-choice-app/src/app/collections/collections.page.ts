@@ -10,7 +10,10 @@ import {Router} from "@angular/router";
   styleUrls: ['./collections.page.scss'],
 })
 export class CollectionsPage {
-  constructor(private data: DataService, private alertController: AlertController, private router: Router) { }
+  constructor(private data: DataService,
+              private alertController: AlertController,
+              private router: Router,
+              ) { }
 
 
   refresh(ev: any) {
@@ -115,7 +118,7 @@ export class CollectionsPage {
     await alert.present();
   }
 
-  openDetail(collection: Collection) {
-    this.router.navigate(['/collection-detail', this.data.getIdByCollection(collection)]);
+  openOptions(collection: Collection) {
+    this.router.navigate(['/collection-options', this.data.getIdByCollection(collection)]);
   }
 }

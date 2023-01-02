@@ -29,7 +29,7 @@
     </ion-reorder-group>
   </ion-list>
   <div style="height: 85%; display: flex; align-items: center; justify-content: center;" *ngIf="collection.questions.length < 1">
-    <ion-card class="emptyWarning">
+    <ion-card class="emptyWarning" (click)="openQuestionDetail()">
       <ion-card-header style="padding-bottom: 0">
         <ion-card-title class="emptyWarningText">There are no questions at the moment!</ion-card-title>
       </ion-card-header>
