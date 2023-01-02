@@ -19,6 +19,14 @@ const routes: Routes = [
     path: 'collection-detail/:id',
     loadChildren: () => import('./collection-detail/collection-detail.module').then( m => m.CollectionDetailPageModule)
   },
+  {
+    path: 'collection-options/:id',
+    loadChildren: () => import('./collection-options/collection-options.module').then( m => m.CollectionOptionsPageModule)
+  },
+  {
+    path: 'question-test/:collectionId',
+    loadChildren: () => import('./question-test/question-test.module').then( m => m.QuestionTestPageModule)
+  },
 ];
 
 @NgModule({

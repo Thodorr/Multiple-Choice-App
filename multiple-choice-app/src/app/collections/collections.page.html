@@ -21,7 +21,7 @@
 
   <ion-list>
     <app-collection *ngFor="let collection of getCollections()" [collection]="collection" (press)="openEditPopup(collection)"
-                    (click)="openDetail(collection)"></app-collection>
+                    (click)="openOptions(collection)"></app-collection>
   </ion-list>
 
   <ion-fab class="addFab" slot="fixed" vertical="bottom" horizontal="center">

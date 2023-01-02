@@ -1,8 +1,8 @@
 export class Answer{
   private _text: string;
-  private _isCorrect: Boolean;
+  private _isCorrect: boolean;
 
-  constructor(text: string, isCorrect: Boolean) {
+  constructor(text: string, isCorrect: boolean) {
     this._text = text;
     this._isCorrect = isCorrect;
   }
@@ -15,11 +15,11 @@ export class Answer{
     this._text = value;
   }
 
-  get isCorrect(): Boolean {
+  get isCorrect(): boolean {
     return this._isCorrect;
   }
 
-  set isCorrect(value: Boolean) {
+  set isCorrect(value: boolean) {
     this._isCorrect = value;
   }
 }

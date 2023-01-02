@@ -1,0 +1,15 @@
+$main-color: #006AB0;
+$side-margin: 12px;
+$rounding: 5px;
+
+.blueBox {
+  border-radius: $rounding;
+  margin-left: $side-margin;
+  margin-right: $side-margin;
+  color: white;
+  background-color: $main-color;
+}
+
+.title {
+  color: white;
+}

@@ -1,21 +1,21 @@
 import {Answer} from "./Answer";
 
 export class Question{
-  private _questionText: String;
+  private _questionText: string;
   private _answers: Answer[];
-  private _correctlyAnswered: Number;
+  private _correctlyAnswered: number;
 
-  constructor(questionText: String, answers: Answer[]) {
+  constructor(questionText: string, answers: Answer[]) {
     this._questionText = questionText;
     this._answers = answers;
     this._correctlyAnswered = 0;
   }
 
-  get questionText(): String {
+  get questionText(): string {
     return this._questionText;
   }
 
-  set questionText(value: String) {
+  set questionText(value: string) {
     this._questionText = value;
   }
 
@@ -27,11 +27,11 @@ export class Question{
     this._answers = value;
   }
 
-  get correctlyAnswered(): Number {
+  get correctlyAnswered(): number {
     return this._correctlyAnswered;
   }
 
-  set correctlyAnswered(value: Number) {
+  set correctlyAnswered(value: number) {
     this._correctlyAnswered = value;
   }
 }

@@ -1,0 +1,73 @@
+$main-color: #006AB0;
+$side-margin: 12px;
+$rounding: 5px;
+
+.blueBox {
+  border-radius: $rounding;
+  margin-left: $side-margin;
+  margin-right: $side-margin;
+  color: white;
+  background-color: $main-color;
+}
+
+.blue {
+  background-color: $main-color!important;
+  color: $main-color!important;
+}
+
+.red {
+  background-color: darkred!important;
+  color: darkred!important;
+}
+
+ion-checkbox {
+  --size: 20px;
+  border-radius: 6px;
+}
+
+ion-checkbox::part(container) {
+  border-radius: 6px;
+}
+
+.buttonRow {
+  position:absolute !important;
+  bottom:20px !important;
+  left: $side-margin !important;
+  right: $side-margin !important;
+}
+
+.emptyWarning {
+  border: 5px dashed $main-color;
+  border-radius: $rounding;
+  margin-left:  50px;
+  margin-right: 50px;
+  margin-top: 15px;
+  position: absolute;
+  top: 35%;
+}
+
+.emptyWarningText {
+  text-align: center;
+  color: $main-color;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+
+.swiper-container {
+  width: 100% !important;
+  height: 100% !important;
+}
+.swiper {
+  width: 100% !important;
+  height: 100% !important;
+}
+.swiper-wrapper {
+  width: 100% !important;
+  height: 100% !important;
+}
+.swiper-slide {
+  width: 100% !important;
+  height: 100% !important;
+}
+
