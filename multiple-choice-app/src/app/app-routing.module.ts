@@ -27,6 +27,11 @@ const routes: Routes = [
     path: 'question-test/:collectionId',
     loadChildren: () => import('./question-test/question-test.module').then( m => m.QuestionTestPageModule)
   },
+  {
+    path: 'login',
+    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
+  },
+
 ];
 
 @NgModule({
