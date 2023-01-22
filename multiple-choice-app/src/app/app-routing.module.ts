@@ -1,15 +1,21 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import {canActivate, redirectLoggedInTo, redirectUnauthorizedTo} from "@angular/fire/auth-guard";
+
+const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['']);
+const redirectAuthorizedToLogin = () => redirectLoggedInTo(['collections']);
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'collections',
-    pathMatch: 'full'
+    pathMatch: 'full',
+    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule),
+    ...canActivate(redirectAuthorizedToLogin)
   },
   {
     path: 'collections',
-    loadChildren: () => import('./collections/collections.module').then( m => m.CollectionsPageModule)
+    loadChildren: () => import('./collections/collections.module').then( m => m.CollectionsPageModule),
+    ...canActivate(redirectUnauthorizedToLogin)
   },
   {
     path: 'question-detail/:collectionId/:questionId',
@@ -28,10 +34,13 @@ const routes: Routes = [
     loadChildren: () => import('./question-test/question-test.module').then( m => m.QuestionTestPageModule)
   },
   {
-    path: 'login',
-    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
+    path: 'register',
+    loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
   },
-
+  {
+    path: 'login',
+    redirectTo: ''
+  },
 ];
 
 @NgModule({

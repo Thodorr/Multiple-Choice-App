@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button [routerLink]="['/login']">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Registrieren</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item class="position-input">
+    <ion-label position="floating">E-Mail</ion-label>
+    <ion-input #email></ion-input>
+  </ion-item>
+  <ion-item class="position-input">
+    <ion-label position="floating">Passwort</ion-label>
+    <ion-input type="password" #password></ion-input>
+  </ion-item>
+  <ion-button (click)="register(email, password)">Sign Up</ion-button>
+</ion-content>

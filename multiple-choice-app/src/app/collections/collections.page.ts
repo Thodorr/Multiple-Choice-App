@@ -3,6 +3,7 @@ import {DataService} from "../services/data.service";
 import {AlertController, RefresherCustomEvent} from "@ionic/angular";
 import {Collection} from "../../model/Collection";
 import {Router} from "@angular/router";
+import {AuthService} from "../services/auth.service";
 
 @Component({
   selector: 'app-collections',
@@ -13,6 +14,7 @@ export class CollectionsPage {
   constructor(private data: DataService,
               private alertController: AlertController,
               private router: Router,
+              private authService: AuthService
               ) { }
 
 
@@ -120,5 +122,14 @@ export class CollectionsPage {
 
   openOptions(collection: Collection) {
     this.router.navigate(['/collection-options', this.data.getIdByCollection(collection)]);
+  }
+
+  logOut() {
+    this.authService.logout()
+      .then(() => {
+        this.router.navigateByUrl('/login');
+      }).catch((error) => {
+      window.alert(error.message);
+    })
   }
 }
