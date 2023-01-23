@@ -56,4 +56,8 @@ export class CollectionDetailPage implements OnInit {
     });
     await alert.present();
   }
+
+  deleteCollection() {
+
+  }
 }

@@ -4,6 +4,8 @@ import {AlertController, RefresherCustomEvent} from "@ionic/angular";
 import {Collection} from "../../model/Collection";
 import {Router} from "@angular/router";
 import {AuthService} from "../services/auth.service";
+import {DatabaseService} from "../services/database.service";
+import { DocumentData } from 'firebase/firestore';
 
 @Component({
   selector: 'app-collections',
@@ -12,17 +14,24 @@ import {AuthService} from "../services/auth.service";
 })
 export class CollectionsPage {
   constructor(private data: DataService,
+              private databaseService: DatabaseService,
               private alertController: AlertController,
               private router: Router,
               private authService: AuthService
-              ) { }
-
+  ) {
+    this.getCollections();
+  }
 
   refresh(ev: any) {
     setTimeout(() => {
       (ev as RefresherCustomEvent).detail.complete();
     }, 3000);
   }
+
+  //
+  /*getCollections() {
+    return this.databaseService.getCollections()
+  }*/
 
   getCollections(): Collection[] {
     return this.data.collections
@@ -112,6 +121,7 @@ export class CollectionsPage {
           handler: (alertData) => {
             if ( alertData.nameInput.length >= 1 && alertData.descriptionInput.length >= 1) {
               this.data.addCollection(alertData.nameInput, alertData.descriptionInput)
+              //this.databaseService.createCollection(alertData.nameInput, alertData.descriptionInput)
             }
           },
         }],
