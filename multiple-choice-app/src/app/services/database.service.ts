@@ -1,7 +1,18 @@
 import { Injectable } from '@angular/core';
 import {Auth} from "@angular/fire/auth";
 import {NotFoundError} from "rxjs";
-import {addDoc, collection, deleteDoc, doc, Firestore, getDoc, getDocs, query, where} from "@angular/fire/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  Firestore,
+  getDoc,
+  getDocs,
+  query,
+  setDoc,
+  where
+} from "@angular/fire/firestore";
 import {Collection} from "../../model/Collection";
 
 @Injectable({
@@ -61,8 +72,15 @@ export class DatabaseService {
     if (!userId) {
       throw new NotFoundError('User not logged in!');
     }
-    console.log(collection.id)
-
     await deleteDoc(doc(this.firestore, 'collections', collection.id.toString()));
+  }
+
+  async editCollection(collection: Collection) {
+    let userId = await this.auth.currentUser?.uid;
+
+    if (!userId) {
+      throw new NotFoundError('User not logged in!');
+    }
+    await setDoc(doc(this.firestore, 'collections', collection.id.toString()), collection);
   }
 }

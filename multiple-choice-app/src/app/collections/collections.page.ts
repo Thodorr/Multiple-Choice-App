@@ -62,11 +62,10 @@ export class CollectionsPage {
           role: 'confirm',
           handler: (alertData) => {
             if ( alertData.nameInput.length >= 1 && alertData.descriptionInput.length >= 1) {
-              let targetCollection = this.data.collections.find(c => c === collection);
-              if (targetCollection !== undefined) {
-                targetCollection.name = alertData.nameInput
-                targetCollection.description = alertData.descriptionInput
-              }
+              collection.name = alertData.nameInput
+              collection.description = alertData.descriptionInput
+              this.databaseService.editCollection(collection)
+              this.getCollectionsFromDB()
             }
           }
         },
