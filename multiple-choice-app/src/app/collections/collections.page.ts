@@ -20,7 +20,7 @@ export class CollectionsPage {
               private router: Router,
               private authService: AuthService
   ) {
-    this.getCollections();
+    //this.getCollections();
     this.getCollectionsFromDB()
   }
 
@@ -34,9 +34,9 @@ export class CollectionsPage {
     this.collections = await this.databaseService.getCollections()
   }
 
-  getCollections(): Collection[] {
-    return this.data.collections
-  }
+  // getCollections(): Collection[] {
+  //   return this.data.collections
+  // }
 
   async openEditPopup(collection: Collection) {
     const alert = await this.alertController.create({
@@ -121,8 +121,7 @@ export class CollectionsPage {
           role: 'confirm',
           handler: (alertData) => {
             if ( alertData.nameInput.length >= 1 && alertData.descriptionInput.length >= 1) {
-              this.data.addCollection(alertData.nameInput, alertData.descriptionInput)
-              //this.databaseService.createCollection(alertData.nameInput, alertData.descriptionInput)
+              this.databaseService.createCollection(alertData.nameInput, alertData.descriptionInput)
             }
           },
         }],
