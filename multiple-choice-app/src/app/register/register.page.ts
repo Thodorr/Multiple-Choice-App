@@ -34,7 +34,7 @@ export class RegisterPage implements OnInit {
             errorMessage = 'Invalid input'
             break
         }
-        if (errorMessage !== null) {
+        if (errorMessage !== null && errorMessage !== undefined) {
           const toast = await this.toastController.create({
             message: errorMessage,
             duration: 1500,

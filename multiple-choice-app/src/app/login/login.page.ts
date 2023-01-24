@@ -40,7 +40,8 @@ export class LoginPage implements OnInit {
           errorMessage = 'Wrong input'
           break
       }
-      if (errorMessage !== null) {
+      console.log(errorMessage)
+      if (errorMessage !== null && errorMessage !== undefined) {
         const toast = await this.toastController.create({
           message: errorMessage,
           duration: 1500,
