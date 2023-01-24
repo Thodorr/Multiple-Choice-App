@@ -10,13 +10,15 @@
 </ion-header>
 
 <ion-content>
-  <ion-item class="position-input">
-    <ion-label position="floating">E-Mail</ion-label>
-    <ion-input #email></ion-input>
-  </ion-item>
-  <ion-item class="position-input">
-    <ion-label position="floating">Passwort</ion-label>
-    <ion-input type="password" #password></ion-input>
-  </ion-item>
-  <ion-button (click)="register(email, password)">Sign Up</ion-button>
+  <ion-list>
+    <ion-item class="position-input">
+      <ion-label position="floating">E-Mail</ion-label>
+      <ion-input #email></ion-input>
+    </ion-item>
+    <ion-item class="position-input">
+      <ion-label position="floating">Passwort</ion-label>
+      <ion-input type="password" #password></ion-input>
+    </ion-item>
+    <ion-button (click)="register(email, password)">Sign Up</ion-button>
+  </ion-list>
 </ion-content>

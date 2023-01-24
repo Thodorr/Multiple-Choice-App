@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {IonInput} from "@ionic/angular";
+import {IonInput, ToastController} from "@ionic/angular";
 import {Router} from "@angular/router";
 import {AuthService} from "../services/auth.service";
 
@@ -12,7 +12,8 @@ export class RegisterPage implements OnInit {
 
   constructor(
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private toastController: ToastController
   ) { }
 
   ngOnInit() {
@@ -20,10 +21,31 @@ export class RegisterPage implements OnInit {
 
   register(email: IonInput, password: IonInput) {
     this.authService.register(email.value as string, password.value as string)
-      .then(() => {
-        this.router.navigate(['collections'])
-      }).catch((error) => {
-      window.alert(error.message)
+      .then(async (message: any) => {
+        let errorMessage = message.code
+        switch (message.code) {
+          case 'auth/invalid-email':
+            errorMessage = 'Invalid email adresse'
+            break
+          case 'auth/weak-password':
+            errorMessage = 'The Password must be at least 6 characters long'
+            break
+          case 'auth/internal-error':
+            errorMessage = 'Invalid input'
+            break
+        }
+        if (errorMessage !== null) {
+          const toast = await this.toastController.create({
+            message: errorMessage,
+            duration: 1500,
+            position: "bottom"
+          });
+          await toast.present();
+        } else {
+          this.router.navigate(['collections'])
+        }
+      }).catch(async (error) => {
+        window.alert(error.message)
     })
   }
 
