@@ -3,6 +3,7 @@ import {DataService} from "../services/data.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Collection} from "../../model/Collection";
 import {AlertController, ItemReorderEventDetail, NavController} from "@ionic/angular";
+import {DatabaseService} from "../services/database.service";
 
 @Component({
   selector: 'app-collection-detail',
@@ -10,26 +11,32 @@ import {AlertController, ItemReorderEventDetail, NavController} from "@ionic/ang
   styleUrls: ['./collection-detail.page.scss'],
 })
 export class CollectionDetailPage implements OnInit {
-  id: number;
-  collection: Collection;
+  id: any;
+  collection: Collection = new Collection('', '')
 
   constructor(private data: DataService,
               private activatedRoute: ActivatedRoute,
               private router: Router,
               private alertController: AlertController,
-              private navController: NavController
+              private navController: NavController,
+              private databaseService: DatabaseService
   ) { }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
-      this.collection = this.data.getCollectionById(this.id)
+      this.getCollectionsFromDBbyId()
     });
+  }
+
+  async getCollectionsFromDBbyId() {
+    this.collection = await this.databaseService.getCollectionById(this.id) as Collection
   }
 
   openQuestionDetail(questionId: number = -1){
     this.router.navigate(['/question-detail', this.id, questionId]);
   }
+
 
   goBack() {
     this.navController.navigateBack('/collections');
