@@ -4,6 +4,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {Question} from "../../model/Question";
 import {AlertController, NavController, ToastController} from "@ionic/angular";
 import {Answer} from "../../model/Answer";
+import {DatabaseService} from "../services/database.service";
+import {Collection} from "../../model/Collection";
 
 @Component({
   selector: 'app-question-detail',
@@ -12,8 +14,10 @@ import {Answer} from "../../model/Answer";
 })
 export class QuestionDetailPage implements OnInit {
 
-  questionId: number;
-  collectionId: number;
+  questionId: any;
+  collectionId: any;
+
+  collectionName: String = '';
 
   question: Question;
 
@@ -23,13 +27,15 @@ export class QuestionDetailPage implements OnInit {
     private alertController: AlertController,
     private router: Router,
     private navController: NavController,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private databaseService: DatabaseService
   ) { }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe(params => {
       this.questionId = params['questionId'];
       this.collectionId = params['collectionId'];
+      this.getCollectionNameFromDB()
       if (this.questionId != -1) {
         this.question = this.data.getQuestionByIds(this.collectionId, this.questionId)
       } else {
@@ -81,6 +87,11 @@ export class QuestionDetailPage implements OnInit {
 
   onCancel() {
     this.navController.back();
+  }
+
+  async getCollectionNameFromDB() {
+    const collection = await this.databaseService.getCollectionById(this.collectionId) as Collection
+    this.collectionName = collection.name
   }
 
   getCollectionName() {
