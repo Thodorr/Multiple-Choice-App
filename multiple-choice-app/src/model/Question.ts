@@ -1,11 +1,13 @@
 import {Answer} from "./Answer";
 
 export class Question{
+  public id: string;
+  public collectionId: string;
   private _questionText: string;
-  private _answers: Answer[];
+  private _answers: any[];
   private _correctlyAnswered: number;
 
-  constructor(questionText: string, answers: Answer[]) {
+  constructor(questionText: string, answers: any[]) {
     this._questionText = questionText;
     this._answers = answers;
     this._correctlyAnswered = 0;
@@ -19,11 +21,11 @@ export class Question{
     this._questionText = value;
   }
 
-  get answers(): Answer[] {
+  get answers(): any[] {
     return this._answers;
   }
 
-  set answers(value: Answer[]) {
+  set answers(value: any[]) {
     this._answers = value;
   }
 

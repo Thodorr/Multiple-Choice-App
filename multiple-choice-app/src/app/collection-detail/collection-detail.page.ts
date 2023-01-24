@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {Collection} from "../../model/Collection";
 import {AlertController, ItemReorderEventDetail, NavController} from "@ionic/angular";
 import {DatabaseService} from "../services/database.service";
+import {Question} from "../../model/Question";
 
 @Component({
   selector: 'app-collection-detail',
@@ -13,6 +14,7 @@ import {DatabaseService} from "../services/database.service";
 export class CollectionDetailPage implements OnInit {
   id: any;
   collection: Collection = new Collection('', '')
+  questions: Question[] = []
 
   constructor(private data: DataService,
               private activatedRoute: ActivatedRoute,
@@ -26,6 +28,7 @@ export class CollectionDetailPage implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
       this.getCollectionsFromDBbyId()
+      this.getQuestionsFromDB()
     });
   }
 
@@ -33,7 +36,13 @@ export class CollectionDetailPage implements OnInit {
     this.collection = await this.databaseService.getCollectionById(this.id) as Collection
   }
 
-  openQuestionDetail(questionId: number = -1){
+  async getQuestionsFromDB() {
+    this.questions = await this.databaseService.getQuestionsOfCollection(this.id) as Question[]
+    console.log('Questions: ', this.questions)
+  }
+
+  openQuestionDetail(questionId: any = -1){
+    console.log("HERERERER", questionId)
     this.router.navigate(['/question-detail', this.id, questionId]);
   }
 

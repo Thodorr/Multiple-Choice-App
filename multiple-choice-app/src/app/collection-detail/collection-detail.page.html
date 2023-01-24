@@ -10,10 +10,10 @@
 </ion-header>
 
 <ion-content>
-  <ion-list *ngIf="collection.questions.length >= 1" style="min-height: 80%">
+  <ion-list *ngIf="questions.length >= 1" style="min-height: 80%">
     <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($any($event))">
-      <ion-item *ngFor="let question of collection.questions; let indexOfElement = index;" lines="none">
-        <ion-card class="blueBox" style="width: 100%" (click)="openQuestionDetail(indexOfElement)" (press)="deleteQuestion(indexOfElement)">
+      <ion-item *ngFor="let question of questions; let indexOfElement = index;" lines="none">
+        <ion-card class="blueBox" style="width: 100%" (click)="openQuestionDetail(question.id)" (press)="deleteQuestion(indexOfElement)">
           <ion-card-header>
             <ion-row>
               <ion-col>
@@ -28,7 +28,7 @@
       </ion-item>
     </ion-reorder-group>
   </ion-list>
-  <div style="height: 85%; display: flex; align-items: center; justify-content: center;" *ngIf="collection.questions.length < 1">
+  <div style="height: 85%; display: flex; align-items: center; justify-content: center;" *ngIf="questions.length < 1">
     <ion-card class="emptyWarning" (click)="openQuestionDetail()">
       <ion-card-header style="padding-bottom: 0">
         <ion-card-title class="emptyWarningText">There are no questions at the moment!</ion-card-title>
