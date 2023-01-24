@@ -73,10 +73,8 @@ export class CollectionsPage {
         {
           text: 'Delete',
           handler: () => {
-            let targetCollectionIndex = this.data.collections.findIndex(c => c === collection);
-            if (targetCollectionIndex !== -1) {
-              this.data.collections.splice(targetCollectionIndex, 1)
-            }
+            this.databaseService.deleteCollection(collection)
+            this.getCollectionsFromDB()
           }
         },
         {
@@ -118,6 +116,7 @@ export class CollectionsPage {
           handler: (alertData) => {
             if ( alertData.nameInput.length >= 1 && alertData.descriptionInput.length >= 1) {
               this.databaseService.createCollection(alertData.nameInput, alertData.descriptionInput)
+              this.getCollectionsFromDB()
             }
           },
         }],

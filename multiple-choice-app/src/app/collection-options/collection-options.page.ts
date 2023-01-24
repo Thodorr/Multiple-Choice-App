@@ -13,7 +13,7 @@ import {DatabaseService} from "../services/database.service";
 export class CollectionOptionsPage implements OnInit {
 
   id: string
-  collection: any = new Collection('', '')
+  collection: Collection = new Collection('', '')
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
@@ -30,7 +30,7 @@ export class CollectionOptionsPage implements OnInit {
   }
 
   async getCollectionsFromDBbyId() {
-    this.collection = await this.databaseService.getCollectionById(this.id)
+    this.collection = await this.databaseService.getCollectionById(this.id) as Collection
   }
 
   openEdit() {
