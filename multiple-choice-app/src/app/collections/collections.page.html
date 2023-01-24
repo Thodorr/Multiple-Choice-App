@@ -25,7 +25,7 @@
   </ion-header>
 
   <ion-list>
-    <app-collection *ngFor="let collection of getCollections()" [collection]="collection" (press)="openEditPopup(collection)"
+    <app-collection *ngFor="let collection of collections as Collection" [collection]="collection" (press)="openEditPopup(collection)"
                     (click)="openOptions(collection)"></app-collection>
   </ion-list>
 

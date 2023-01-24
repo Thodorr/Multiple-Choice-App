@@ -5,7 +5,6 @@ import {Collection} from "../../model/Collection";
 import {Router} from "@angular/router";
 import {AuthService} from "../services/auth.service";
 import {DatabaseService} from "../services/database.service";
-import { DocumentData } from 'firebase/firestore';
 
 @Component({
   selector: 'app-collections',
@@ -13,6 +12,8 @@ import { DocumentData } from 'firebase/firestore';
   styleUrls: ['./collections.page.scss'],
 })
 export class CollectionsPage {
+  collections: any[]
+
   constructor(private data: DataService,
               private databaseService: DatabaseService,
               private alertController: AlertController,
@@ -20,6 +21,7 @@ export class CollectionsPage {
               private authService: AuthService
   ) {
     this.getCollections();
+    this.getCollectionsFromDB()
   }
 
   refresh(ev: any) {
@@ -28,10 +30,9 @@ export class CollectionsPage {
     }, 3000);
   }
 
-  //
-  /*getCollections() {
-    return this.databaseService.getCollections()
-  }*/
+  async getCollectionsFromDB() {
+    this.collections = await this.databaseService.getCollections()
+  }
 
   getCollections(): Collection[] {
     return this.data.collections

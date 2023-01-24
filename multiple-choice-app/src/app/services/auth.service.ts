@@ -13,6 +13,7 @@ export class AuthService {
     try {
       return await createUserWithEmailAndPassword(this.auth, email, password);
     } catch (e) {
+      console.log(e)
       return null;
     }
   }

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';;
+import { Injectable } from '@angular/core';
 import {Auth} from "@angular/fire/auth";
 import {NotFoundError} from "rxjs";
 import {addDoc, collection, Firestore, getDocs} from "@angular/fire/firestore";
@@ -32,7 +32,6 @@ export class DatabaseService {
     query.forEach((doc) => {
       console.log(doc.data());
     });
-
-    return query;
+    return query.docs.map(doc => doc.data())
   }
 }
