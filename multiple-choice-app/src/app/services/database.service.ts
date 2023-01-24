@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Auth} from "@angular/fire/auth";
 import {NotFoundError} from "rxjs";
-import {addDoc, collection, Firestore, getDocs, query, where} from "@angular/fire/firestore";
+import {addDoc, collection, doc, Firestore, getDoc, getDocs, query, where} from "@angular/fire/firestore";
 
 @Injectable({
   providedIn: 'root'
@@ -30,9 +30,27 @@ export class DatabaseService {
 
     const q = await query(collection(this.firestore, 'collections'), where("userId", "==", userId));
     const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      console.log(doc.data());
-    });
-    return querySnapshot.docs.map(doc => doc.data())
+    return querySnapshot.docs.map(doc => {
+      let data = doc.data();
+      data['id'] = doc.id;
+
+      console.log(data);
+
+      return data;
+    })
+  }
+
+  async getCollectionById(id: string) {
+    const docRef = doc(this.firestore, 'collections', id);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      let data = docSnap.data();
+      data['id'] = docSnap.id;
+
+      return data;
+    } else {
+      throw new NotFoundError('No such document!');
+    }
   }
 }

@@ -1,6 +1,8 @@
 import {Question} from "./Question";
 
 export class Collection {
+
+  private _id: String;
   private _name: String;
   private _description: String;
   private _questions: Question[] = [];
@@ -9,6 +11,14 @@ export class Collection {
   constructor(name: String, description: String) {
     this._name = name;
     this._description = description;
+  }
+
+  get id(): String {
+    return this._id;
+  }
+
+  set id(value: String) {
+    this._id = value;
   }
 
   get name(): String {

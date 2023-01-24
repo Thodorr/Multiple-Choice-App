@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {DataService} from "../services/data.service";
 import {Collection} from "../../model/Collection";
 import {NavController} from "@ionic/angular";
+import {DatabaseService} from "../services/database.service";
 
 @Component({
   selector: 'app-collection-options',
@@ -11,23 +12,25 @@ import {NavController} from "@ionic/angular";
 })
 export class CollectionOptionsPage implements OnInit {
 
-  id: number
+  id: string
   collection: Collection
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
+              private databaseService: DatabaseService,
               private data: DataService,
               private navController: NavController) { }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
-      this.collection = this.data.getCollectionById(this.id)
+
+      this.collection = this.databaseService.getCollectionById(this.id)
     });
   }
 
   openEdit() {
-    this.router.navigate(['/collection-detail', this.id]);
+    this.router.navigate(['/collection-detail', this.collection['id']]);
   }
 
   openTest() {

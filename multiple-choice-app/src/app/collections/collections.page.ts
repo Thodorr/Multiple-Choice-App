@@ -34,10 +34,6 @@ export class CollectionsPage {
     this.collections = await this.databaseService.getCollections()
   }
 
-  // getCollections(): Collection[] {
-  //   return this.data.collections
-  // }
-
   async openEditPopup(collection: Collection) {
     const alert = await this.alertController.create({
       header: 'Edit Collection',
@@ -131,7 +127,7 @@ export class CollectionsPage {
   }
 
   openOptions(collection: Collection) {
-    this.router.navigate(['/collection-options', this.data.getIdByCollection(collection)]);
+    this.router.navigate(['/collection-options', collection.id]);
   }
 
   logOut() {
