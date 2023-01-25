@@ -5,6 +5,8 @@ import {Collection} from "../../model/Collection";
 import {NavController} from "@ionic/angular";
 import {DatabaseService} from "../services/database.service";
 import {Question} from "../../model/Question";
+import {AuthService} from "../services/auth.service";
+import {Auth} from "@angular/fire/auth";
 
 @Component({
   selector: 'app-collection-options',
@@ -21,7 +23,8 @@ export class CollectionOptionsPage implements OnInit {
               private activatedRoute: ActivatedRoute,
               private databaseService: DatabaseService,
               private data: DataService,
-              private navController: NavController) { }
+              private navController: NavController,
+              private auth: Auth) { }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe(params => {
@@ -41,13 +44,19 @@ export class CollectionOptionsPage implements OnInit {
   }
 
   openEdit() {
-    this.router.navigate(['/collection-detail', this.collection['id']]);
+    if (this.isMyCollection()) {
+      this.router.navigate(['/collection-detail', this.collection['id']]);
+    }
   }
 
   openTest() {
     if (this.questions.length >= 1) {
       this.router.navigate(['question-test', this.id, 'Learn']);
     }
+  }
+
+  isMyCollection() {
+    return this.auth.currentUser?.uid === this.collection.userId;
   }
 
   openExam() {

@@ -35,3 +35,14 @@
     </ion-fab-button>
   </ion-fab>
 </ion-content>
+<ion-tab-bar style="position: absolute; bottom: 0; width: 100%">
+  <ion-tab-button (click)="getCollectionsFromDB()">
+    <ion-icon name="bookmark-outline" aria-hidden="true"></ion-icon>
+    <ion-label>My Collections</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button (click)="getCollectionsAllFromDB()">
+    <ion-icon :icon="albums-outline" aria-hidden="true"></ion-icon>
+    <ion-label>All Collections</ion-label>
+  </ion-tab-button>
+</ion-tab-bar>

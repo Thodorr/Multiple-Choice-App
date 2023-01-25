@@ -7,6 +7,7 @@ export class Collection {
   private _description: String;
   private _questions: Question[] = [];
   private _passed: Boolean = false;
+  public userId: string
 
   constructor(name: String, description: String) {
     this._name = name;

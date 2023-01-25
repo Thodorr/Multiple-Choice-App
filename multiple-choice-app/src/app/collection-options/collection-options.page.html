@@ -51,7 +51,7 @@
       <ion-row>
         <ion-col>
           <div>
-            <ion-card class="box blue" (click)="openEdit()" type="button">
+            <ion-card class="box" [ngClass]="{'grey' : !isMyCollection(), 'blue' : isMyCollection()}" (click)="openEdit()" type="button">
               <div class="centered">
                 <ion-icon style=" font-size: 85px; margin-top: 10px" name="create-outline"></ion-icon>
               </div>

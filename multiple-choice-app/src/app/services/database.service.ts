@@ -52,6 +52,23 @@ export class DatabaseService {
     })
   }
 
+  async getAllCollections() {
+    let userId = this.auth.currentUser?.uid;
+
+    if (!userId) {
+      throw new NotFoundError('User not logged in!');
+    }
+
+    const q = await query(collection(this.firestore, 'collections'));
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.map(doc => {
+      let data = doc.data();
+      data['id'] = doc.id;
+
+      return data;
+    })
+  }
+
   async getCollectionById(id: string) {
     const docRef = doc(this.firestore, 'collections', id);
     const docSnap = await getDoc(docRef);
@@ -72,6 +89,7 @@ export class DatabaseService {
     if (!userId) {
       throw new NotFoundError('User not logged in!');
     }
+    if (userId !== collection.userId) return
     await deleteDoc(doc(this.firestore, 'collections', collection.id.toString()));
   }
 
@@ -81,6 +99,7 @@ export class DatabaseService {
     if (!userId) {
       throw new NotFoundError('User not logged in!');
     }
+    if (userId !== collection.userId) return
     await setDoc(doc(this.firestore, 'collections', collection.id.toString()), collection);
   }
 

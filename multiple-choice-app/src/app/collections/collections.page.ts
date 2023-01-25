@@ -34,6 +34,10 @@ export class CollectionsPage {
     this.collections = await this.databaseService.getCollections()
   }
 
+  async getCollectionsAllFromDB() {
+    this.collections = await this.databaseService.getAllCollections()
+  }
+
   async openEditPopup(collection: Collection) {
     const alert = await this.alertController.create({
       header: 'Edit Collection',
