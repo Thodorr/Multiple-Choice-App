@@ -46,7 +46,13 @@ export class CollectionOptionsPage implements OnInit {
 
   openTest() {
     if (this.questions.length >= 1) {
-      this.router.navigate(['question-test', this.id]);
+      this.router.navigate(['question-test', this.id, 'Learn']);
+    }
+  }
+
+  openExam() {
+    if (this.questions.length >= 1) {
+      this.router.navigate(['question-test', this.id, 'Exam']);
     }
   }
 

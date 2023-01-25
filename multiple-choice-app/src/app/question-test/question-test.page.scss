@@ -60,11 +60,11 @@ ion-checkbox::part(container) {
 
 .swiper-container {
   width: 100% !important;
-  height: 100% !important;
+  height: 100%;
 }
 .swiper {
   width: 100% !important;
-  height: 100% !important;
+  height: 100%;
 }
 .swiper-wrapper {
   width: 100% !important;
@@ -74,4 +74,6 @@ ion-checkbox::part(container) {
   width: 100% !important;
   height: 100% !important;
 }
-
+.shortened {
+  height: 90%!important;
+}

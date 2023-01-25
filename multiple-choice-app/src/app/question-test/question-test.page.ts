@@ -23,6 +23,7 @@ export class QuestionTestPage implements OnInit {
   collection: Collection = new Collection('', '');
   questions: Question[] = []
   answers: Answer[] = []
+  context: string = 'Learn'
 
   submittedQuestion: Array<Question> = [];
   checkedBoxIndexes: Array<number>;
@@ -39,9 +40,10 @@ export class QuestionTestPage implements OnInit {
   ngOnInit() {
     this.activatedRoute.params.subscribe(params => {
       this.collectionId = params['collectionId'];
-        this.getCollectionFromDB()
-        this.getQuestionsFromDB()
-        this.getAnswersFromDB()
+      this.context = params['context'];
+      this.getCollectionFromDB()
+      this.getQuestionsFromDB()
+      this.getAnswersFromDB()
     });
   }
 
@@ -81,6 +83,28 @@ export class QuestionTestPage implements OnInit {
 
   submitQuestion(question: Question) {
     if (this.submittedQuestion.includes(question)) return
+    const correctlyAnswered: boolean = this.checkQuestion(question)
+    if (correctlyAnswered) question.correctlyAnswered++
+    this.databaseService.editQuestion(question)
+    let swiper = new Swiper('.swiper-container')
+
+    this.delay(800).then(() => {
+        swiper.slideTo(1)
+    })
+
+  }
+
+  submitExam() {
+    let correctQuestions = 0
+    for (let question of this.questions) {
+      if (this.checkQuestion(question)) correctQuestions++
+    }
+
+    const percentage =  correctQuestions / this.questions.length * 100
+    this.router.navigate(['/evaluation', percentage])
+  }
+
+  checkQuestion(question: Question): boolean {
     this.submittedQuestion.push(question)
     const checkBoxes: NodeListOf<HTMLIonCheckboxElement> = document.querySelectorAll('ion-checkbox');
     let filteredBoxes: Array<HTMLIonCheckboxElement> = Array.from(checkBoxes).filter(element => element.id.includes(question.questionText))
@@ -97,14 +121,7 @@ export class QuestionTestPage implements OnInit {
         correctlyAnswered = false
       }
     }
-    if (correctlyAnswered) question.correctlyAnswered++
-    this.databaseService.editQuestion(question)
-    let swiper = new Swiper('.swiper-container')
-
-    this.delay(800).then(() => {
-        swiper.slideTo(1)
-    })
-
+    return correctlyAnswered
   }
 
   delay(time: number) {

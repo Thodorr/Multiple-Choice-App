@@ -36,7 +36,7 @@
       <ion-row>
         <ion-col>
           <div>
-            <ion-card [ngClass]="{'grey' : questions.length < 1, 'blue' : questions.length >= 1}" class="box">
+            <ion-card [ngClass]="{'grey' : questions.length < 1, 'blue' : questions.length >= 1}" class="box" (click)="openExam()">
               <div class="centered">
                 <ion-icon style=" font-size: 85px; margin-top: 10px" name="reader-outline"></ion-icon>
               </div>

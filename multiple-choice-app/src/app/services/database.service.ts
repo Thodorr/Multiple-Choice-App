@@ -152,6 +152,15 @@ export class DatabaseService {
     })
   }
 
+  async deleteAnswer(answer: Answer) {
+    let userId = await this.auth.currentUser?.uid;
+
+    if (!userId) {
+      throw new NotFoundError('User not logged in!');
+    }
+    await deleteDoc(doc(this.firestore, 'answers', answer.id.toString()));
+  }
+
   async getQuestionsByText(questionText: string) {
     const q = await query(collection(this.firestore, 'questions'), where("questionText", "==", questionText));
     const querySnapshot = await getDocs(q);

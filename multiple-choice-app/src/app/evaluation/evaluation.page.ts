@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {DataService} from "../services/data.service";
-import {Collection} from "../../model/Collection";
 import {NavController} from "@ionic/angular";
 import {DatabaseService} from "../services/database.service";
 
@@ -12,6 +11,8 @@ import {DatabaseService} from "../services/database.service";
 })
 export class EvaluationPage implements OnInit {
 
+  result: number = 0
+
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
               private databaseService: DatabaseService,
@@ -19,6 +20,9 @@ export class EvaluationPage implements OnInit {
               private navController: NavController) { }
 
   ngOnInit() {
+    this.activatedRoute.params.subscribe(params => {
+      this.result = params['result'];
+    });
   }
 
   goBack() {

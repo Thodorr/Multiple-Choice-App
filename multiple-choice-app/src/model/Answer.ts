@@ -1,5 +1,5 @@
 export class Answer{
-  public Id: string;
+  public id: string;
   private _answerText: string;
   private _isCorrect: boolean;
   public questionId: string;

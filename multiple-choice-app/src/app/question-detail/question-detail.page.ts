@@ -52,6 +52,7 @@ export class QuestionDetailPage implements OnInit {
   removeAnswer(answer: Answer) {
     let index = this.answers.indexOf(answer)
     this.answers.splice(index, 1)
+    if (this.questionId !== -1) this.databaseService.deleteAnswer(answer)
   }
 
   async openAddPopup() {

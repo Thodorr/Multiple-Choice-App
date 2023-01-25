@@ -10,7 +10,7 @@
 </ion-header>
 
 <ion-content>
-  <swiper class="swiper-container" [pagination]="true" #swiper>
+  <swiper class="swiper-container" [pagination]="true" [ngClass]="{'shortened': context === 'Exam'}" #swiper>
     <ng-template *ngFor="let question of this.questions; let indexOfQuestion = index"  swiperSlide>
       <div *ngIf="question.correctlyAnswered < 5">
         <ion-card class="blueBox">
@@ -34,7 +34,7 @@
 
         <ion-row class="buttonRow">
           <ion-col>
-            <ion-button expand="block" class="bottomButton" (click)="submitQuestion(question)">Check</ion-button>
+            <ion-button *ngIf="context === 'Learn'" expand="block" class="bottomButton" (click)="submitQuestion(question)">Check</ion-button>
           </ion-col>
         </ion-row>
       </div>
@@ -50,6 +50,11 @@
       </div>
     </ng-template>
   </swiper>
+  <ion-row class="buttonRow">
+    <ion-col>
+      <ion-button *ngIf="context === 'Exam'" expand="block" class="bottomButton" (click)="submitExam()">Submit</ion-button>
+    </ion-col>
+  </ion-row>
 
 </ion-content>
 

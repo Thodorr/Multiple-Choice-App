@@ -30,7 +30,7 @@ const routes: Routes = [
     loadChildren: () => import('./collection-options/collection-options.module').then( m => m.CollectionOptionsPageModule)
   },
   {
-    path: 'question-test/:collectionId',
+    path: 'question-test/:collectionId/:context',
     loadChildren: () => import('./question-test/question-test.module').then( m => m.QuestionTestPageModule)
   },
   {
@@ -42,7 +42,7 @@ const routes: Routes = [
     redirectTo: ''
   },
   {
-    path: 'evaluation',
+    path: 'evaluation/:result',
     loadChildren: () => import('./evaluation/evaluation.module').then( m => m.EvaluationPageModule)
   },
 
