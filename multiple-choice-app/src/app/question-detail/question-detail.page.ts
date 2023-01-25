@@ -23,6 +23,7 @@ export class QuestionDetailPage implements OnInit {
 
   question: Question = new Question('');
   answers: Answer[] = []
+  newAnswers: Answer[] = []
 
   constructor(
     private data: DataService,
@@ -81,7 +82,9 @@ export class QuestionDetailPage implements OnInit {
             if ( alertData.answerInput.length >= 1 ) {
               let isCorrect = false
               if (alertData.correct === 'on') isCorrect = true
-              this.answers.push(new Answer(alertData.answerInput, isCorrect))
+              const answer : Answer = new Answer(alertData.answerInput, isCorrect)
+              this.answers.push(answer)
+              this.newAnswers.push(answer)
             }
           },
         }],
@@ -117,12 +120,12 @@ export class QuestionDetailPage implements OnInit {
         await this.databaseService.createQuestion(this.question, this.collection)
         const primer = await this.databaseService.getQuestionsByText(this.question.questionText)
         this.question = primer[0] as Question
-        await this.databaseService.createAnswers(this.answers, this.question)
+        await this.databaseService.createAnswers(this.newAnswers, this.question)
       } else {
         await this.databaseService.editQuestion(this.question)
         const primer = await this.databaseService.getQuestionsByText(this.question.questionText)
         this.question = primer[0] as Question
-        await this.databaseService.createAnswers(this.answers, this.question)
+        await this.databaseService.createAnswers(this.newAnswers, this.question)
       }
       await this.router.navigate(['/collection-detail', this.collectionId]);
     } else {
