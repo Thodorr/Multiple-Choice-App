@@ -15,6 +15,7 @@ export class CollectionDetailPage implements OnInit {
   id: any;
   collection: Collection = new Collection('', '')
   questions: Question[] = []
+  answers: any
 
   constructor(private data: DataService,
               private activatedRoute: ActivatedRoute,
@@ -39,6 +40,11 @@ export class CollectionDetailPage implements OnInit {
   async getQuestionsFromDB() {
     this.questions = await this.databaseService.getQuestionsOfCollection(this.id) as Question[]
     console.log('Questions: ', this.questions)
+  }
+
+  async getAnswersFromDB() {
+    this.answers = await this.databaseService.getAnswersByQuestionId(this.id)
+    console.log('Answers: ', this.answers)
   }
 
   openQuestionDetail(questionId: any = -1){

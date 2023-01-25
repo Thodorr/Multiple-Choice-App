@@ -19,6 +19,7 @@ export class QuestionTestPage implements OnInit {
 
   collectionId: number;
   collection: Collection;
+  answer: Answer[]
 
   submittedQuestion: Array<Question> = [];
   checkedBoxIndexes: Array<number>;
@@ -65,7 +66,7 @@ export class QuestionTestPage implements OnInit {
       if (filteredBoxes[i].checked) {
         this.checkedBoxIndexes.push(i)
       }
-      if (question.answers[i].isCorrect !== filteredBoxes[i].checked && correctlyAnswered) {
+      if (this.answer[i].isCorrect !== filteredBoxes[i].checked && correctlyAnswered) {
         correctlyAnswered = false
       }
     }

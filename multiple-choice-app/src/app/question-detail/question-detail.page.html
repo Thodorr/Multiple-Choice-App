@@ -15,10 +15,10 @@
   </ion-card>
 
   <ion-list>
-    <ion-item *ngFor="let answer of question.answers" (press)="removeAnswer(answer)" button>
-      <ion-icon name="checkmark-circle-outline" slot="start" color="primary" *ngIf="getAnswerValue(answer)"></ion-icon>
-      <ion-icon name="close-circle-outline" slot="start" color="primary" *ngIf="!getAnswerValue(answer)"></ion-icon>
-      {{ getAnswerText(answer) }}
+    <ion-item *ngFor="let answer of answer" (press)="removeAnswer(answer)" button>
+      <ion-icon name="checkmark-circle-outline" slot="start" color="primary" *ngIf="getAnswerFromDB()"></ion-icon>
+      <ion-icon name="close-circle-outline" slot="start" color="primary" *ngIf="!getAnswerFromDB()"></ion-icon>
+      {{answer.answerText}}
     </ion-item>
     <ion-item class="add" (click)="openAddPopup()" button>
       <ion-label> Add Answer </ion-label>

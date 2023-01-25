@@ -4,12 +4,10 @@ export class Question{
   public id: string;
   public collectionId: string;
   private _questionText: string;
-  private _answers: any[];
   private _correctlyAnswered: number;
 
-  constructor(questionText: string, answers: any[]) {
+  constructor(questionText: string) {
     this._questionText = questionText;
-    this._answers = answers;
     this._correctlyAnswered = 0;
   }
 
@@ -19,14 +17,6 @@ export class Question{
 
   set questionText(value: string) {
     this._questionText = value;
-  }
-
-  get answers(): any[] {
-    return this._answers;
-  }
-
-  set answers(value: any[]) {
-    this._answers = value;
   }
 
   get correctlyAnswered(): number {

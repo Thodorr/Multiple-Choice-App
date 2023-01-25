@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {DataService} from "../services/data.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Question} from "../../model/Question";
@@ -16,11 +16,13 @@ export class QuestionDetailPage implements OnInit {
 
   questionId: any;
   collectionId: any;
+  answerId: any;
 
   collectionName: String = '';
   collection: Collection
 
-  question: Question = new Question('', []);
+  question: Question = new Question('');
+  answer: Answer[] = []
 
   constructor(
     private data: DataService,
@@ -40,14 +42,14 @@ export class QuestionDetailPage implements OnInit {
       if (this.questionId != -1) {
         this.getQuestionFromDB()
       } else {
-        this.question = new Question('', [])
+        this.question = new Question('')
       }
     });
   }
 
   removeAnswer(answer: Answer) {
-    let index = this.question.answers.indexOf(answer)
-    this.question.answers.splice(index, 1)
+    let index = this.answer.indexOf(answer)
+    this.answer.splice(index, 1)
   }
 
   async openAddPopup() {
@@ -78,10 +80,7 @@ export class QuestionDetailPage implements OnInit {
             if ( alertData.answerInput.length >= 1 ) {
               let isCorrect = false
               if (alertData.correct === 'on') isCorrect = true
-              const answerMap = new Map() as Map<any, any>
-              answerMap.set(alertData.answerInput, isCorrect)
-              this.question.answers.push( answerMap )
-              console.log(answerMap.keys())
+              //this.answer.push( new Answer(alertData.answerInput, isCorrect) )
             }
           },
         }],
@@ -93,25 +92,8 @@ export class QuestionDetailPage implements OnInit {
     this.navController.back();
   }
 
-  getAnswerText(answer: Map<string, boolean>): string {
-    const array: any[] = Array.from(answer.entries()) as Array<any>
-    const stringArray = array.toString()
-    const splitArray: string[] = stringArray.split(',')
-    const text : string = splitArray[0]
-
-    return text
-  }
-
-  getAnswerValue(answer: Map<string, boolean>): boolean {
-    const array: any[] = Array.from(answer.entries()) as Array<any>
-    const stringArray = array.toString()
-    const splitArray: string[] = stringArray.split(',')
-    const valueString : string = splitArray[1]
-    let value : boolean
-    if (valueString == 'true') value = true
-    else value = false
-
-    return value
+  async getAnswerFromDB() {
+    this.answer = await this.databaseService.getAnswersByQuestionId(this.questionId) as Answer[]
   }
 
   async getCollectionNameFromDB() {
@@ -121,8 +103,7 @@ export class QuestionDetailPage implements OnInit {
   }
 
   async getQuestionFromDB() {
-    const question = await this.databaseService.getQuestionById(this.questionId) as Question
-    this.question = question
+    this.question = await this.databaseService.getQuestionById(this.questionId) as Question
   }
 
   getCollectionName() {
@@ -130,9 +111,10 @@ export class QuestionDetailPage implements OnInit {
   }
 
   async onSave() {
-    if (this.question.questionText.length > 0 && this.question.answers.length > 0) {
+    if (this.question.questionText.length > 0 && this.answer.length > 0) {
       if (this.questionId == -1) {
         await this.databaseService.createQuestion(this.question, this.collection)
+        await this.databaseService.createAnswers(this.answer, this.question)
       } else {
         await this.databaseService.editQuestion(this.question)
       }

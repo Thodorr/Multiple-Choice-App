@@ -23,12 +23,12 @@
         </ion-card>
 
         <ion-list>
-          <ion-item *ngFor="let answer of question.answers; let indexOfAnswer = index"
+          <ion-item *ngFor="let answer of answer; let indexOfAnswer = index"
                     (click)="checkAnswer(question.questionText.toString(), indexOfAnswer)"
                     [ngClass]="{'blue': correctCondition(answer, question), 'red': incorrectCondition(answer, question, indexOfAnswer)}" button>
             <ion-checkbox [color]="incorrectCondition(answer, question, indexOfAnswer) ? 'danger' : 'primary'"
                           [id]="question.questionText + indexOfAnswer.toString()" slot="start" disabled="true"></ion-checkbox>
-            <ion-label>{{ answer.text }}</ion-label>
+            <ion-label>{{ answer.answerText }}</ion-label>
           </ion-item>
         </ion-list>
 

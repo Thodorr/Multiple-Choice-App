@@ -15,6 +15,7 @@ import {
 } from "@angular/fire/firestore";
 import {Collection} from "../../model/Collection";
 import {Question} from "../../model/Question";
+import {Answer} from "../../model/Answer";
 
 @Injectable({
   providedIn: 'root'
@@ -92,7 +93,7 @@ export class DatabaseService {
       throw new NotFoundError('User not logged in!');
     }
 
-    await addDoc(collection(this.firestore, 'questions'), {questionText: question.questionText, answers: question.answers, collectionId: collection2.id});
+    await addDoc(collection(this.firestore, 'questions'), {questionText: question.questionText, collectionId: collection2.id});
   }
 
   async editQuestion(question: Question) {
@@ -101,7 +102,7 @@ export class DatabaseService {
     if (!userId) {
       throw new NotFoundError('User not logged in!');
     }
-    await setDoc(doc(this.firestore, 'collections', question.id.toString()), {questionText: question.questionText, answers: question.answers, collectionId: question.collectionId});
+    await setDoc(doc(this.firestore, 'collections', question.id.toString()), question);
   }
 
   async getQuestionById(id: string) {
@@ -131,5 +132,43 @@ export class DatabaseService {
 
       return data;
     })
+  }
+
+  async getAnswersByQuestionId(id: any) {
+    const q = await query(collection(this.firestore, 'answers'), where("questionId", "==", id));
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.map(doc => {
+      let data = doc.data();
+      data['id'] = doc.id;
+
+      console.log(data);
+
+      return data;
+    })
+  }
+
+  async createAnswer(answer: Answer, question: Question) {
+    await addDoc(collection(this.firestore, 'answers'), {answerText: answer.answerText, questionId: question.id, isCorrect: answer.isCorrect});
+  }
+
+  async createAnswers(answers: Answer[], question: Question) {
+    for (const answer of answers) {
+      await this.createAnswer(answer, question);
+    }
+  }
+
+
+  async getAnswerById(id: string) {
+    const docRef = doc(this.firestore, 'answers', id);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      let data = docSnap.data();
+      data['id'] = docSnap.id;
+
+      return data;
+    } else {
+      throw new NotFoundError('No such document!');
+    }
   }
 }
