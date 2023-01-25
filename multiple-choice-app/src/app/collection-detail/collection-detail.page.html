@@ -13,7 +13,7 @@
   <ion-list *ngIf="questions.length >= 1" style="min-height: 80%">
     <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($any($event))">
       <ion-item *ngFor="let question of questions; let indexOfElement = index;" lines="none">
-        <ion-card class="blueBox" style="width: 100%" (click)="openQuestionDetail(question.id)" (press)="deleteQuestion(indexOfElement)">
+        <ion-card class="blueBox" style="width: 100%" (click)="openQuestionDetail(question.id)" (press)="deleteQuestion(question)">
           <ion-card-header>
             <ion-row>
               <ion-col>

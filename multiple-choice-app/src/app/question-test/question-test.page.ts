@@ -40,6 +40,7 @@ export class QuestionTestPage implements OnInit {
       this.collectionId = params['collectionId'];
         this.getCollectionFromDB()
         this.getQuestionsFromDB()
+        this.getAnswersFromDB()
     });
   }
 
@@ -49,6 +50,12 @@ export class QuestionTestPage implements OnInit {
 
   async getQuestionsFromDB() {
     this.questions = await this.databaseService.getQuestionsOfCollection(this.collectionId) as Question[]
+  }
+
+  async getAnswersFromDB() {
+    const answers =  await this.databaseService.getAnswers()
+    this.answers = answers as Answer[]
+    console.log(this.answers)
   }
 
   onCancel() {
@@ -74,11 +81,13 @@ export class QuestionTestPage implements OnInit {
     this.checkedBoxIndexes = [];
     let correctlyAnswered = true;
 
-    for (let i = 0; i < filteredBoxes.length; i++) {
+    let filteredAnswers: Answer[] = this.answers.filter(answer => answer.questionId === question.id)
+
+    for (let i = 0; i < filteredAnswers.length; i++) {
       if (filteredBoxes[i].checked) {
         this.checkedBoxIndexes.push(i)
       }
-      if (this.answers[i].isCorrect !== filteredBoxes[i].checked && correctlyAnswered) {
+      if (filteredAnswers[i].isCorrect !== filteredBoxes[i].checked && correctlyAnswered) {
         correctlyAnswered = false
       }
     }

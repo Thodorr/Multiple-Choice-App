@@ -2,6 +2,12 @@ $main-color: #006AB0;
 $side-margin: 12px;
 $rounding: 5px;
 
+.invisible {
+  visibility: hidden;
+  height: 0;
+  width: 0;
+}
+
 .blueBox {
   border-radius: $rounding;
   margin-left: $side-margin;

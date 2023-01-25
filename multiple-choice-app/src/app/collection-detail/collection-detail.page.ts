@@ -61,7 +61,7 @@ export class CollectionDetailPage implements OnInit {
     ev.detail.complete();
   }
 
-  async deleteQuestion(index: number){
+  async deleteQuestion(question: Question){
     const alert = await this.alertController.create({
       header: 'Do you want to delete this question?',
       buttons: [{
@@ -72,7 +72,8 @@ export class CollectionDetailPage implements OnInit {
           text: 'Yes',
           role: 'confirm',
           handler: () => {
-            this.collection.questions.splice(index, 1)
+            this.databaseService.deleteQuestion(question)
+            this.getQuestionsFromDB()
           },
         }],
     });

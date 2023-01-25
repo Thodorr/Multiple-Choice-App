@@ -16,7 +16,6 @@ import {
 import {Collection} from "../../model/Collection";
 import {Question} from "../../model/Question";
 import {Answer} from "../../model/Answer";
-import {unwatchFile} from "fs";
 
 @Injectable({
   providedIn: 'root'
@@ -48,8 +47,6 @@ export class DatabaseService {
     return querySnapshot.docs.map(doc => {
       let data = doc.data();
       data['id'] = doc.id;
-
-      console.log(data);
 
       return data;
     })
@@ -110,6 +107,15 @@ export class DatabaseService {
     await setDoc(doc(this.firestore, 'collections', question.id.toString()), {questionText: question.questionText, collectionId: question.collectionId, correctlyAnswered: question.correctlyAnswered});
   }
 
+  async deleteQuestion(question: Question) {
+    let userId = await this.auth.currentUser?.uid;
+
+    if (!userId) {
+      throw new NotFoundError('User not logged in!');
+    }
+    await deleteDoc(doc(this.firestore, 'questions', question.id.toString()));
+  }
+
   async getQuestionById(id: string) {
     const docRef = doc(this.firestore, 'questions', id);
     const docSnap = await getDoc(docRef);
@@ -125,15 +131,11 @@ export class DatabaseService {
   }
 
   async getQuestionsOfCollection(id: any) {
-    console.log(id)
-
     const q = await query(collection(this.firestore, 'questions'), where("collectionId", "==", id));
     const querySnapshot = await getDocs(q);
     return querySnapshot.docs.map(doc => {
       let data = doc.data();
       data['id'] = doc.id;
-
-      console.log(data);
 
       return data;
     })
@@ -145,8 +147,6 @@ export class DatabaseService {
     return querySnapshot.docs.map(doc => {
       let data = doc.data();
       data['id'] = doc.id;
-
-      console.log(data);
 
       return data;
     })
@@ -172,7 +172,6 @@ export class DatabaseService {
   }
 
   async createAnswers(answers: Answer[], question: Question) {
-    console.log(answers, question)
     for (const answer of answers) {
       await this.createAnswer(answer, question);
     }
@@ -190,5 +189,17 @@ export class DatabaseService {
     } else {
       throw new NotFoundError('No such document!');
     }
+  }
+
+  async getAnswers() {
+    const q = await query(collection(this.firestore, 'answers'))
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.map(doc => {
+      let data = doc.data();
+      data['id'] = doc.id;
+
+      return data;
+
+    })
   }
 }

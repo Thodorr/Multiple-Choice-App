@@ -25,7 +25,8 @@
         <ion-list>
           <ion-item *ngFor="let answer of answers; let indexOfAnswer = index"
                     (click)="checkAnswer(question.questionText.toString(), indexOfAnswer)"
-                    [ngClass]="{'blue': correctCondition(answer, question), 'red': incorrectCondition(answer, question, indexOfAnswer)}" button>
+                    [ngClass]="{'blue': correctCondition(answer, question), 'red': incorrectCondition(answer, question, indexOfAnswer),
+                    'invisible' : answer.questionId != question.id}" button>
             <ion-checkbox [color]="incorrectCondition(answer, question, indexOfAnswer) ? 'danger' : 'primary'"
                           [id]="question.questionText + indexOfAnswer.toString()" slot="start" disabled="true"></ion-checkbox>
             <ion-label>{{ answer.answerText }}</ion-label>
