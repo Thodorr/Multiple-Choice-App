@@ -8,6 +8,7 @@ import SwiperCore, {
 } from "swiper";
 import {Question} from "../../model/Question";
 import {Answer} from "../../model/Answer";
+import {DatabaseService} from "../services/database.service";
 
 SwiperCore.use([Pagination])
 @Component({
@@ -17,9 +18,10 @@ SwiperCore.use([Pagination])
 })
 export class QuestionTestPage implements OnInit {
 
-  collectionId: number;
-  collection: Collection;
-  answer: Answer[]
+  collectionId: string;
+  collection: Collection = new Collection('', '');
+  questions: Question[] = []
+  answers: Answer[]
 
   submittedQuestion: Array<Question> = [];
   checkedBoxIndexes: Array<number>;
@@ -30,13 +32,23 @@ export class QuestionTestPage implements OnInit {
     private alertController: AlertController,
     private router: Router,
     private navController: NavController,
+    private databaseService: DatabaseService
   ) { }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe(params => {
       this.collectionId = params['collectionId'];
-        this.collection = this.data.getCollectionById(this.collectionId)
+        this.getCollectionFromDB()
+        this.getQuestionsFromDB()
     });
+  }
+
+  async getCollectionFromDB() {
+    this.collection = await this.databaseService.getCollectionById(this.collectionId) as Collection
+  }
+
+  async getQuestionsFromDB() {
+    this.questions = await this.databaseService.getQuestionsOfCollection(this.collectionId) as Question[]
   }
 
   onCancel() {
@@ -44,7 +56,7 @@ export class QuestionTestPage implements OnInit {
   }
 
   getCollectionName() {
-    return this.data.getCollectionById(this.collectionId).name
+    return this.collection.name
   }
 
   checkAnswer(questionText: string, index: number) {
@@ -66,7 +78,7 @@ export class QuestionTestPage implements OnInit {
       if (filteredBoxes[i].checked) {
         this.checkedBoxIndexes.push(i)
       }
-      if (this.answer[i].isCorrect !== filteredBoxes[i].checked && correctlyAnswered) {
+      if (this.answers[i].isCorrect !== filteredBoxes[i].checked && correctlyAnswered) {
         correctlyAnswered = false
       }
     }

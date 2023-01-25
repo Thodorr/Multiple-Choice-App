@@ -11,7 +11,7 @@
 
 <ion-content>
   <swiper [pagination]="true" #swiper>
-    <ng-template *ngFor="let question of this.collection.questions; let indexOfQuestion = index"  swiperSlide>
+    <ng-template *ngFor="let question of this.questions; let indexOfQuestion = index"  swiperSlide>
       <div *ngIf="question.correctlyAnswered < 5">
         <ion-card class="blueBox">
           <ion-card-header style="padding-bottom: 5px">
@@ -23,7 +23,7 @@
         </ion-card>
 
         <ion-list>
-          <ion-item *ngFor="let answer of answer; let indexOfAnswer = index"
+          <ion-item *ngFor="let answer of answers; let indexOfAnswer = index"
                     (click)="checkAnswer(question.questionText.toString(), indexOfAnswer)"
                     [ngClass]="{'blue': correctCondition(answer, question), 'red': incorrectCondition(answer, question, indexOfAnswer)}" button>
             <ion-checkbox [color]="incorrectCondition(answer, question, indexOfAnswer) ? 'danger' : 'primary'"

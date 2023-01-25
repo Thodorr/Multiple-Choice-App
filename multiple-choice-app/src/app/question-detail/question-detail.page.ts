@@ -22,7 +22,7 @@ export class QuestionDetailPage implements OnInit {
   collection: Collection
 
   question: Question = new Question('');
-  answer: Answer[] = []
+  answers: Answer[] = []
 
   constructor(
     private data: DataService,
@@ -41,6 +41,7 @@ export class QuestionDetailPage implements OnInit {
       this.getCollectionNameFromDB()
       if (this.questionId != -1) {
         this.getQuestionFromDB()
+        this.getAnswerFromDB()
       } else {
         this.question = new Question('')
       }
@@ -48,8 +49,8 @@ export class QuestionDetailPage implements OnInit {
   }
 
   removeAnswer(answer: Answer) {
-    let index = this.answer.indexOf(answer)
-    this.answer.splice(index, 1)
+    let index = this.answers.indexOf(answer)
+    this.answers.splice(index, 1)
   }
 
   async openAddPopup() {
@@ -80,7 +81,7 @@ export class QuestionDetailPage implements OnInit {
             if ( alertData.answerInput.length >= 1 ) {
               let isCorrect = false
               if (alertData.correct === 'on') isCorrect = true
-              //this.answer.push( new Answer(alertData.answerInput, isCorrect) )
+              this.answers.push(new Answer(alertData.answerInput, isCorrect))
             }
           },
         }],
@@ -93,7 +94,7 @@ export class QuestionDetailPage implements OnInit {
   }
 
   async getAnswerFromDB() {
-    this.answer = await this.databaseService.getAnswersByQuestionId(this.questionId) as Answer[]
+    this.answers = await this.databaseService.getAnswersByQuestionId(this.questionId) as Answer[]
   }
 
   async getCollectionNameFromDB() {
@@ -111,12 +112,17 @@ export class QuestionDetailPage implements OnInit {
   }
 
   async onSave() {
-    if (this.question.questionText.length > 0 && this.answer.length > 0) {
+    if (this.question.questionText.length > 0 && this.answers.length > 0) {
       if (this.questionId == -1) {
         await this.databaseService.createQuestion(this.question, this.collection)
-        await this.databaseService.createAnswers(this.answer, this.question)
+        const primer = await this.databaseService.getQuestionsByText(this.question.questionText)
+        this.question = primer[0] as Question
+        await this.databaseService.createAnswers(this.answers, this.question)
       } else {
         await this.databaseService.editQuestion(this.question)
+        const primer = await this.databaseService.getQuestionsByText(this.question.questionText)
+        this.question = primer[0] as Question
+        await this.databaseService.createAnswers(this.answers, this.question)
       }
       await this.router.navigate(['/collection-detail', this.collectionId]);
     } else {

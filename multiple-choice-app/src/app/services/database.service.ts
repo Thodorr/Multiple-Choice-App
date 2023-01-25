@@ -11,11 +11,12 @@ import {
   getDocs,
   query,
   setDoc,
-  where
+  where, writeBatch
 } from "@angular/fire/firestore";
 import {Collection} from "../../model/Collection";
 import {Question} from "../../model/Question";
 import {Answer} from "../../model/Answer";
+import {unwatchFile} from "fs";
 
 @Injectable({
   providedIn: 'root'
@@ -93,16 +94,20 @@ export class DatabaseService {
       throw new NotFoundError('User not logged in!');
     }
 
-    await addDoc(collection(this.firestore, 'questions'), {questionText: question.questionText, collectionId: collection2.id});
+    await addDoc(collection(this.firestore, 'questions'), {questionText: question.questionText, collectionId: collection2.id, correctlyAnswered: 0});
   }
 
   async editQuestion(question: Question) {
     let userId = await this.auth.currentUser?.uid;
 
+    if (question.correctlyAnswered === undefined || question.correctlyAnswered === null) {
+      question.correctlyAnswered = 0;
+    }
+
     if (!userId) {
       throw new NotFoundError('User not logged in!');
     }
-    await setDoc(doc(this.firestore, 'collections', question.id.toString()), question);
+    await setDoc(doc(this.firestore, 'collections', question.id.toString()), {questionText: question.questionText, collectionId: question.collectionId, correctlyAnswered: question.correctlyAnswered});
   }
 
   async getQuestionById(id: string) {
@@ -147,16 +152,31 @@ export class DatabaseService {
     })
   }
 
+  async getQuestionsByText(questionText: string) {
+    const q = await query(collection(this.firestore, 'questions'), where("questionText", "==", questionText));
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.map(doc => {
+      let data = doc.data();
+      data['id'] = doc.id;
+
+      const chartData = querySnapshot.docs.map(doc => doc.data())
+      const question: Question = chartData[0] as Question
+      question.id = doc.id
+
+      return question;
+    })
+  }
+
   async createAnswer(answer: Answer, question: Question) {
     await addDoc(collection(this.firestore, 'answers'), {answerText: answer.answerText, questionId: question.id, isCorrect: answer.isCorrect});
   }
 
   async createAnswers(answers: Answer[], question: Question) {
+    console.log(answers, question)
     for (const answer of answers) {
       await this.createAnswer(answer, question);
     }
   }
-
 
   async getAnswerById(id: string) {
     const docRef = doc(this.firestore, 'answers', id);

@@ -1,6 +1,8 @@
 export class Answer{
+  public Id: string;
   private _answerText: string;
   private _isCorrect: boolean;
+  public questionId: string;
 
   constructor(answerText: string, isCorrect: boolean) {
     this._answerText = answerText;

@@ -4,6 +4,7 @@ import {DataService} from "../services/data.service";
 import {Collection} from "../../model/Collection";
 import {NavController} from "@ionic/angular";
 import {DatabaseService} from "../services/database.service";
+import {Question} from "../../model/Question";
 
 @Component({
   selector: 'app-collection-options',
@@ -14,6 +15,7 @@ export class CollectionOptionsPage implements OnInit {
 
   id: string
   collection: Collection = new Collection('', '')
+  questions: Question[] = []
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
@@ -26,6 +28,7 @@ export class CollectionOptionsPage implements OnInit {
       this.id = params['id'];
 
       this.getCollectionsFromDBbyId()
+      this.getQuestionFromDB()
     });
   }
 
@@ -33,12 +36,16 @@ export class CollectionOptionsPage implements OnInit {
     this.collection = await this.databaseService.getCollectionById(this.id) as Collection
   }
 
+  async getQuestionFromDB() {
+    this.questions = await this.databaseService.getQuestionsOfCollection(this.id) as Question[]
+  }
+
   openEdit() {
     this.router.navigate(['/collection-detail', this.collection['id']]);
   }
 
   openTest() {
-    if (this.collection.questions.length >= 1) {
+    if (this.questions.length >= 1) {
       this.router.navigate(['question-test', this.id]);
     }
   }
