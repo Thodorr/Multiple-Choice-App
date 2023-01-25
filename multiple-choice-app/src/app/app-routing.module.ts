@@ -41,6 +41,11 @@ const routes: Routes = [
     path: 'login',
     redirectTo: ''
   },
+  {
+    path: 'evaluation',
+    loadChildren: () => import('./evaluation/evaluation.module').then( m => m.EvaluationPageModule)
+  },
+
 ];
 
 @NgModule({

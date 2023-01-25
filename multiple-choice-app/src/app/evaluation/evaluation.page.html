@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Evaluation: <!--{{ collection.name }}--></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-row class="centered">
+    <ion-col>
+
+      <ion-row>
+        <ion-col>
+          <div>
+              <ion-title class="centered" style="color: #006AB0; font-size: 50px">Result:</ion-title>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <div>
+            <ion-card  class="box; blue"> <!--(click)="openQuiz()"-->
+              <div class="centered">
+                <ion-title style=" font-size: 100px; margin-top: 10px; color: white">80 %</ion-title>
+              </div>
+            </ion-card>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <div>
+            <ion-card class="box grey" >
+              <div class="centered">
+                <ion-buttons slot="start">
+                  <ion-button [routerLink]="['/login']">
+                    <ion-title color="#006AB0">Done</ion-title>
+                  </ion-button>
+                </ion-buttons>
+              </div>
+            </ion-card>
+          </div>
+        </ion-col>
+      </ion-row>
+
+    </ion-col>
+  </ion-row>
+</ion-content>
