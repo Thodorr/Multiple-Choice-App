@@ -3,9 +3,7 @@ $side-margin: 12px;
 $rounding: 5px;
 
 .invisible {
-  visibility: hidden;
-  height: 0;
-  width: 0;
+  display: none;
 }
 
 .blueBox {

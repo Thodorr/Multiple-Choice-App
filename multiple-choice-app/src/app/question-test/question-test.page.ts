@@ -9,6 +9,7 @@ import SwiperCore, {
 import {Question} from "../../model/Question";
 import {Answer} from "../../model/Answer";
 import {DatabaseService} from "../services/database.service";
+import Swiper from "swiper";
 
 SwiperCore.use([Pagination])
 @Component({
@@ -21,7 +22,7 @@ export class QuestionTestPage implements OnInit {
   collectionId: string;
   collection: Collection = new Collection('', '');
   questions: Question[] = []
-  answers: Answer[]
+  answers: Answer[] = []
 
   submittedQuestion: Array<Question> = [];
   checkedBoxIndexes: Array<number>;
@@ -50,6 +51,7 @@ export class QuestionTestPage implements OnInit {
 
   async getQuestionsFromDB() {
     this.questions = await this.databaseService.getQuestionsOfCollection(this.collectionId) as Question[]
+    this.questions = this.questions.filter(question => question.correctlyAnswered < 5)
   }
 
   async getAnswersFromDB() {
@@ -73,6 +75,10 @@ export class QuestionTestPage implements OnInit {
     checkBox.checked = !checkBox.checked;
   }
 
+  getFilteredAnswers(question: Question) {
+    return this.answers.filter(answer => answer.questionId === question.id)
+  }
+
   submitQuestion(question: Question) {
     if (this.submittedQuestion.includes(question)) return
     this.submittedQuestion.push(question)
@@ -83,7 +89,7 @@ export class QuestionTestPage implements OnInit {
 
     let filteredAnswers: Answer[] = this.answers.filter(answer => answer.questionId === question.id)
 
-    for (let i = 0; i < filteredAnswers.length; i++) {
+    for (let i = 0; i < filteredBoxes.length; i++) {
       if (filteredBoxes[i].checked) {
         this.checkedBoxIndexes.push(i)
       }
@@ -91,9 +97,18 @@ export class QuestionTestPage implements OnInit {
         correctlyAnswered = false
       }
     }
-
     if (correctlyAnswered) question.correctlyAnswered++
-    if (question.correctlyAnswered >= 5) console.log()
+    this.databaseService.editQuestion(question)
+    let swiper = new Swiper('.swiper-container')
+
+    this.delay(800).then(() => {
+        swiper.slideTo(1)
+    })
+
+  }
+
+  delay(time: number) {
+    return new Promise(resolve => setTimeout(resolve, time))
   }
 
   correctCondition(answer: Answer, question: Question) {

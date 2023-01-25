@@ -11,7 +11,7 @@ import {
   getDocs,
   query,
   setDoc,
-  where, writeBatch
+  where
 } from "@angular/fire/firestore";
 import {Collection} from "../../model/Collection";
 import {Question} from "../../model/Question";
@@ -104,7 +104,7 @@ export class DatabaseService {
     if (!userId) {
       throw new NotFoundError('User not logged in!');
     }
-    await setDoc(doc(this.firestore, 'collections', question.id.toString()), {questionText: question.questionText, collectionId: question.collectionId, correctlyAnswered: question.correctlyAnswered});
+    await setDoc(doc(this.firestore, 'questions', question.id), question);
   }
 
   async deleteQuestion(question: Question) {

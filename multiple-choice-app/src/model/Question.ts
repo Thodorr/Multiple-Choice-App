@@ -1,4 +1,3 @@
-import {Answer} from "./Answer";
 
 export class Question{
   public id: string;
@@ -6,9 +5,9 @@ export class Question{
   private _questionText: string;
   private _correctlyAnswered: number;
 
-  constructor(questionText: string) {
+  constructor(questionText: string, correctlyAnswered: number = 0) {
     this._questionText = questionText;
-    this._correctlyAnswered = 0;
+    this._correctlyAnswered = correctlyAnswered;
   }
 
   get questionText(): string {

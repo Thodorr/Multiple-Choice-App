@@ -6,6 +6,11 @@
       </ion-button>
     </ion-buttons>
     <ion-title>Collection: {{ collection.name }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="resetCollection()" slot="end">
+        <ion-icon name="refresh-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 

@@ -50,6 +50,13 @@ export class CollectionOptionsPage implements OnInit {
     }
   }
 
+  resetCollection() {
+    for (let question of this.questions) {
+      question.correctlyAnswered = 0
+      this.databaseService.editQuestion(question)
+    }
+  }
+
   goBack() {
     this.navController.back()
   }
